@@ -29,13 +29,24 @@ public class Main {
             System.out.println(operationObjectMap.getId() + " : " + operationObjectMap.getOperation());
         }
 
-        System.out.println("Choose your respective Operation Id from the available options");
+        System.out.print("Choose your respective Operation Id from the available options: ");
         int choice = in.nextInt();
 
+        JSONObject response = new JSONObject();
+
         if (choice == 1) {
-            JSONObject response = APIRequestHandler.getRemoteRepositoryDetails(serverUrl, icSessionId);
+            response = APIRequestHandler.remoteRepoDetails(serverUrl, icSessionId);
             System.out.println("Remote Repo Response: " + response.toString(4));
-        } else{
+        } else if (choice == 2){
+            response = APIRequestHandler.platformOfferings(serverUrl, icSessionId);
+            System.out.println("VCS Platform Offerings: " + response.toString(4));
+        } else if (choice == 3){
+            System.out.print("Enter your Github Repo URL: ");
+            String gitUrl = in.next();
+            response = APIRequestHandler.lookUpConnectionType(serverUrl, icSessionId, gitUrl);
+            System.out.print("Look Up Connection Type: " + response.getString("type"));
+        }
+        else{
             System.out.println("Bye Bye");
         }
 
